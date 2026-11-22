@@ -126,6 +126,7 @@ svg { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-widt
 .page-head h2 { margin: 0 0 4px; font-size: 1.25rem; font-weight: 750; letter-spacing: -0.03em; line-height: 1.35; }
 .page-head p { margin: 0; font-size: 0.8125rem; color: var(--muted); line-height: 1.55; }
 
+#dashView { display: flex; flex-direction: column; gap: 12px; }
 .dash-head { padding: 2px 2px 0; }
 .dash-head h2 { margin: 0 0 3px; font-size: 1.1875rem; font-weight: 750; letter-spacing: -0.03em; }
 .dash-head p { margin: 0; font-size: 0.8125rem; color: var(--muted); }
