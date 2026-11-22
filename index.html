@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#16325C" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="휴폐업 도우미" />
+  <meta name="description" content="장기요양기관 휴·폐업 자료이관 준비를 4단계 진단으로 정리하는 모바일 업무 도우미" />
+  <title>장기요양기관 휴·폐업 준비 도우미</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span>노인장기요양보험</span>
+        <strong>휴·폐업 준비 도우미</strong>
+      </div>
+      <button type="button" class="font-btn" id="fontBtn" aria-pressed="false" aria-label="글자 크게 보기">가+</button>
+    </header>
+
+    <main class="main">
+      <!-- ============ 1. 맞춤진단 ============ -->
+      <section class="panel active" id="panel-diagnose" data-panel="diagnose">
+        <div class="hero" id="hero">
+          <span class="hero-pill">휴·폐업 준비 안내</span>
+          <h2>복잡한 절차를<br><em>순서대로</em> 확인하세요</h2>
+          <p>4개 질문에 답하면 필요한 서류, 61개월 이관기간, 편철 순서까지 한 번에 정리해 드립니다.</p>
+          <ol class="hero-flow">
+            <li><b>1</b><span>공단 접수</span></li>
+            <li><b>2</b><span>접수증 수령</span></li>
+            <li><b>3</b><span>시·군·구 신고</span></li>
+          </ol>
+        </div>
+        <div id="wizardView"></div>
+        <div id="resultView" hidden></div>
+      </section>
+
+      <!-- ============ 2. 서식·예시 ============ -->
+      <section class="panel" id="panel-forms" data-panel="forms">
+        <div class="page-head">
+          <span class="kicker">서식·예시</span>
+          <h2>제출서식과 작성예시</h2>
+          <p>공식 별지 서식 원본을 열어 보고, 이관목록표 작성예시로 기재 방법을 확인하세요.</p>
+        </div>
+
+        <section class="card">
+          <div class="card-head">
+            <span class="kicker">제출서식 5종</span>
+            <h3>신청·이관에 쓰는 서식</h3>
+            <p>모든 경우 기본으로 작성하는 서류부터 상황에 따라 추가되는 서류까지 모았습니다.</p>
+          </div>
+          <div class="file-list" id="formMain"></div>
+        </section>
+
+        <section class="card example-card">
+          <div class="card-head">
+            <span class="kicker">작성예시</span>
+            <h3>이관목록표 작성예시 <b class="tag tag-blue">방문요양</b></h3>
+            <p>표 전체와 작성 포인트가 잘리지 않도록 한눈에 보여드립니다. 세부 내용은 크게 보기로 확인하세요.</p>
+          </div>
+          <button type="button" class="example-thumb" data-act="example-open" aria-label="이관목록표 작성예시 크게 보기">
+            <img src="assets/transfer_list_example.png" alt="방문요양 이관목록표 작성예시" loading="lazy" />
+            <span class="thumb-cta">크게 보기</span>
+          </button>
+          <ul class="mini-list">
+            <li>공통서류는 인정번호 칸에 서류명을 적고, 매수는 ② 급여제공기록지 등 칸에 적습니다.</li>
+            <li>수급자별 자료는 연번·인정번호·성명을 적고, 자료별 매수를 기재합니다.</li>
+            <li>방문간호지시서가 없는 기관은 ③ 칸을 비워 둡니다.</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <span class="kicker">편철 별지 7종</span>
+            <h3>연도별 편철에 붙는 별지</h3>
+            <p>2026년 개정 서식 기준입니다. 2025년 이전 자료는 적용 서식이 다를 수 있으니 관할 지사에 확인하세요.</p>
+          </div>
+          <div class="file-list" id="formAnnex"></div>
+        </section>
+
+        <div class="note note-blue">
+          <b>작성 순서 팁</b>
+          <p>서식을 먼저 열어 어떤 항목을 적어야 하는지 확인한 뒤, 이관목록표에 적은 자료별 매수를 기준으로 실제 자료를 편철하면 순서가 훨씬 명확합니다.</p>
+        </div>
+      </section>
+
+      <!-- ============ 3. 편철·계산 ============ -->
+      <section class="panel" id="panel-binding" data-panel="binding">
+        <div class="page-head">
+          <span class="kicker">편철·계산</span>
+          <h2>기간과 권수를 계산하세요</h2>
+          <p>이관자료 준비기간은 휴·폐업월을 포함한 61개월입니다. 계산기로 범위와 예상 권수를 먼저 확인하세요.</p>
+        </div>
+
+        <section class="card">
+          <div class="card-head">
+            <span class="kicker">계산 1</span>
+            <h3>61개월 이관기간 계산</h3>
+            <p>휴·폐업 예정월을 포함해 정확히 61개월을 계산합니다. 시작월과 종료월은 모두 그 달 전체를 포함합니다.</p>
+          </div>
+          <label class="field" for="calcMonth"><span>휴·폐업 예정월</span><input type="month" id="calcMonth" /></label>
+          <div class="period-out" id="calcOut"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <span class="kicker">계산 2</span>
+            <h3>매수 → 예상 권수</h3>
+            <p>편철은 약 300매를 1권 기준으로 나눕니다. 이관할 전체 매수를 입력해 보세요.</p>
+          </div>
+          <label class="field" for="sheetsInput"><span>이관 매수</span><input type="number" id="sheetsInput" min="1" step="1" inputmode="numeric" placeholder="예: 850" /></label>
+          <div class="sheet-out" id="sheetsOut"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <span class="kicker">편철 구조</span>
+            <h3>연도·급여종류별 편철 만들기</h3>
+            <p>운영연도와 급여종류를 고르면 연도별 공통서류와 수급자별 편철 순서를 만들어 드립니다.</p>
+          </div>
+          <div class="sub-head"><strong>운영연도</strong><button type="button" class="mini" data-act="years-clear">전체 해제</button></div>
+          <div class="chip-grid chips-year" id="yearChips"></div>
+          <div class="sub-head"><strong>급여종류</strong><button type="button" class="mini" data-act="services-clear">전체 해제</button></div>
+          <div class="chip-grid chips-service" id="svcChips"></div>
+          <p class="err hidden" id="bindingError">운영연도와 급여종류를 각각 1개 이상 선택해 주세요.</p>
+          <button type="button" class="btn primary" data-act="binding-make">편철 구조 확인하기</button>
+        </section>
+
+        <div id="bindingOut"></div>
+
+        <section class="card">
+          <div class="card-head"><span class="kicker">기준</span><h3>편철 핵심 규칙</h3></div>
+          <ul class="rules">
+            <li><b>연도 변경</b><span>해가 바뀌면 새 권으로 시작합니다.</span></li>
+            <li><b>약 300매</b><span>한 권은 약 300매를 기준으로 나눕니다.</span></li>
+            <li><b>수급자 자료</b><span>한 수급자의 자료를 중간에 끊지 않습니다.</span></li>
+            <li><b>매수 기입</b><span>각 자료 우측하단에 연필로 매수를 적습니다.</span></li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <span class="kicker">별지 서식</span>
+            <h3>편철에 붙는 별지 바로가기</h3>
+            <p>공통서류로 편철하는 별지 제22호 ~ 제26호서식입니다.</p>
+          </div>
+          <div class="file-list compact" id="annexLinks"></div>
+        </section>
+      </section>
+
+      <!-- ============ 4. 질문·점검 ============ -->
+      <section class="panel" id="panel-qa" data-panel="qa">
+        <div class="page-head">
+          <span class="kicker">질문·점검</span>
+          <h2>헷갈리는 내용과 최종 점검</h2>
+          <p>기관에서 실제 준비할 때 많이 확인하는 내용을 질문으로 정리했습니다. 방문 전에는 체크리스트로 마무리하세요.</p>
+        </div>
+
+        <section class="card">
+          <div class="card-head">
+            <span class="kicker">질문 모아보기</span>
+            <h3>무엇이 궁금하세요?</h3>
+          </div>
+          <div class="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input type="search" id="faqSearch" placeholder="예: 위임장, 61개월, 청구서" autocomplete="off" aria-label="질문 검색" />
+          </div>
+          <div class="chips" id="faqCats"></div>
+          <div class="faq" id="faqList"></div>
+        </section>
+
+        <section class="card" id="finalCard">
+          <div class="card-head">
+            <span class="kicker">최종 점검</span>
+            <h3>방문 전 마지막 확인</h3>
+            <p>빠뜨린 항목이 없는지 한 번 더 확인하세요. 체크 상태는 이 기기에 저장됩니다.</p>
+          </div>
+          <div class="progress-box">
+            <div class="progress-top"><span>준비 진행률</span><strong id="finalPct">0%</strong></div>
+            <div class="progress-track"><i id="finalBar"></i></div>
+            <small id="finalCount">0 / 0 항목</small>
+          </div>
+          <div class="check-list" id="finalList"></div>
+          <button type="button" class="btn ghost" data-act="final-reset">체크 항목 초기화</button>
+        </section>
+
+        <div class="note note-green">
+          <b>최종 제출 전 확인</b>
+          <p>기관 상황에 따라 추가 확인서류나 실제 접수방법이 달라질 수 있습니다. 관할 지사 기준을 다시 확인하세요.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="tabbar" aria-label="주요 메뉴">
+      <button type="button" class="tab active" data-tab="diagnose" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM8 9l2 2 4-4M8 15h8"/></svg>
+        <span>맞춤진단</span>
+      </button>
+      <button type="button" class="tab" data-tab="forms">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg>
+        <span>서식·예시</span>
+      </button>
+      <button type="button" class="tab" data-tab="binding">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5zM8 9h5M8 13h3"/><path d="M14 15h4M16 13v4"/></svg>
+        <span>편철·계산</span>
+      </button>
+      <button type="button" class="tab" data-tab="qa">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H9l-5 4z"/><path d="M9 9.5a2.2 2.2 0 014.2 1c0 1.5-2 1.6-2 2.8M11.3 15.5h.01"/></svg>
+        <span>질문·점검</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header class="modal-head">
+        <div><span id="modalKicker">서식</span><strong id="modalTitle">미리보기</strong></div>
+        <button type="button" class="modal-close" data-act="modal-close" aria-label="닫기">닫기</button>
+      </header>
+      <div class="modal-body" id="modalBody"></div>
+      <footer class="modal-foot" id="modalFoot"></footer>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
