@@ -1,5 +1,5 @@
-/* 장기요양기관 휴·폐업 준비 도우미 v2 - offline cache */
-const CACHE = 'hyupeup-guide-v2-1';
+/* 장기요양기관 휴·폐업 도우미 v2 - offline cache (network-first) */
+const CACHE = 'hyupeup-guide-v2-3';
 const ASSETS = [
   './',
   './index.html',
@@ -51,16 +51,21 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// 네트워크 우선: 새 배포가 즉시 반영되고, 오프라인일 때만 캐시를 사용합니다.
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
+
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((resp) => {
-        const copy = resp.clone();
-        caches.open(CACHE).then((cache) => cache.put(event.request, copy)).catch(() => {});
+    fetch(event.request)
+      .then((resp) => {
+        if (resp && resp.status === 200 && resp.type === 'basic') {
+          const copy = resp.clone();
+          caches.open(CACHE).then((cache) => cache.put(event.request, copy)).catch(() => {});
+        }
         return resp;
-      }).catch(() => caches.match('./index.html'));
-    })
+      })
+      .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./index.html')))
   );
 });
